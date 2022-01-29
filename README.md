@@ -1,5 +1,7 @@
 See the full project in the Jupyter Notebooks:
+
 [Part 1 Exploratory Data Analysis](https://github.com/VictorDonjuan/Credit-Card-Default-Prediction/blob/main/Part%201%20EDA%20Final%20Project.ipynb)
+
 [Part 2 Model and Financial Analysis](https://github.com/VictorDonjuan/Credit-Card-Default-Prediction/blob/main/Part%202%20Model%20and%20Financial%20Analysis%20Final%20Project.ipynb)
 
 

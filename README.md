@@ -23,3 +23,37 @@ A default occurs when a borrower is unable to make timely payments or misses pay
 Although this is a binary classification problem, the response variable is highly unbalanced since more people do tend to make timely payments. 
 
 ![alt text](count_default.JPG "Title")
+
+As we can see, for every 4 people who didn't default there's just 1 who defaulted. Thus, besides measuring the "Accuracy" we will also take into account the "ROC AUC" metric which is common in these kind of problems.
+
+Another problem we found during the data analysis is that the features that indicate whether someone has defaulted during the last 6 months was full of inconsistencies. For example, let's take a look at the following distributions:
+
+![alt text](months_default.JPG "Title")
+
+According to the attribute information, PAY_1 through PAY_4 indicate if an account owner has defaulted in the months September, August, July and June (respectively). If it's value is equal or greater than 1, then that value is the amount of months the account owner has defaulted. A first red flag is that the distrubution of PAY_2, PAY_3 and PAY_4 look exactly the same, which doesn't make sense. A clearer sign of wrong data is that the missing values equal to 1. If an account owner has defaulted twice, say, in July is because they should have defaulted once during June, yet these values are missing. This left us with no other options than having to drop PAY_2 through PAY_6. Naturally, this would have a negative impact on the performance of our model, but we still were able to build a decent model.
+
+# Model Building 
+
+After having cleaned the data, we built a model with XGBoost Classifier which was trained on 80% of the dataset, whereas the rest of the data was used as a hold-out test. The trained took over 1 hour to finish as the following hyperparameters were found by GridSearchCV:
+
+![alt text](param_grid.JPG "Title")  ![alt text](hyperparameters.JPG "Title")
+
+The following scores were obtained, both for the accuracy metric as well as ROC AUC:
+
+![alt text](evaluation.JPG "Title")
+
+# Financial Analysis
+
+The project finishes with a Financial Analysis that simulates the potential savings by using our model in order to predict which account owners are more likely to default. First, we compute the total amount of losses of the company because of people not making their payments:
+
+![alt text](losses.JPG "Title")
+
+With our model, we are able to identify owners who will likely default, so in order to prevent this we can suppose that the company spends around 8,000 dollars hiring a counselor who will speak to the account owner and try to come to an acceptable agreement for the company, and let's suppose that this method has a 70% efectiveness. Since we want to maximize the savings, we should contact only those with a high probability of default. In order to determine what probability is this, we analyze all the possible probability thresholds and their corresponding savings:
+
+![alt text](thresholds.JPG "Title")
+
+Then we can obtain the max possible savings by only contacting those with a higher probability than 0.39:
+
+![alt text](max_savings.JPG "Title")
+
+With this simulation, we could save up to a little bit more than 15,000,000 dollars. 
